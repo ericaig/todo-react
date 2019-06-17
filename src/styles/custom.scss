@@ -1,0 +1,72 @@
+/* padding/marging - (right, top...) (1/2,3...)*/
+$spaceamounts: (0.25, 0.5, 1, 1.5, 3);
+$sides: (top, bottom, left, right);
+
+@for $i from 1 through length($sides) {
+    $side: nth($sides, $i);
+    @for $x from 1 through length($spaceamounts) {
+        $space: nth($spaceamounts, $x);
+        
+        .margin-#{$side}-#{$x}{
+            margin-#{$side}: #{$space}rem !important;
+        }
+
+        .padding-#{$side}-#{$x}{
+            padding-#{$side}: #{$space}rem !important;
+        }
+    }
+}
+
+/* padding/marging - (1/2,3...)*/
+@for $x from 1 through length($spaceamounts) {
+    $space: nth($spaceamounts, $x);
+    
+    .margin-#{$x}{
+        margin: #{$space}rem !important;
+    }
+
+    .padding-#{$x}{
+        padding: #{$space}rem !important;
+    }
+}
+
+.border-bottom{
+    &-1{border-bottom: 1px solid rgba(10,10,10,.1) !important;}
+    &-2{border-bottom: 2px solid rgba(10,10,10,.1) !important;}
+    &-3{border-bottom: 3px solid rgba(10,10,10,.1) !important;}
+}
+
+#side-menu-container{
+    background-color: #FDFEFE;
+}
+
+.menu-list{
+    #user-details{
+        font-size: 1.5em;
+        border-bottom: 1px solid #f4f4f4;
+        padding-bottom: 10px;
+
+        .icon{
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+        }
+    }
+}
+
+#pg-content{
+    section.hero{
+        background: rgb(233,233,233);
+        background: linear-gradient(112deg, rgba(233,233,233,1) 0%, rgba(255,255,255,0.8477766106442577) 100%);
+        .hero-body{
+            background-image: url('images/summer-bucket-list.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: right center;
+        }
+    }
+}
+
+#list-section{
+    border-radius: 4px;
+}
