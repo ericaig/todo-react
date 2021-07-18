@@ -1,4 +1,6 @@
+import { useContext } from "react"
 import styled from "styled-components"
+import { TodoActionSheetContext } from "../contexts/TodoActionSheetContext"
 
 const FormContainerStyles = styled.div`
     background-color: whitesmoke;
@@ -6,6 +8,7 @@ const FormContainerStyles = styled.div`
     bottom: 0;
     padding: 1em;
     box-shadow: 0 0 1em #b4b4b498;
+    display: ${props => !props.show ? 'block' : 'none'};
 `
 
 const FormStyles = styled.form`
@@ -82,6 +85,8 @@ const ButtonStyles = styled.button`
 `
 
 export default function AddTodoForm() {
+    const { show: actionSheetIsVisible } = useContext(TodoActionSheetContext)
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
@@ -92,9 +97,9 @@ export default function AddTodoForm() {
         console.log(title);
     }
 
-    return <FormContainerStyles>
+    return <FormContainerStyles show={actionSheetIsVisible}>
         <FormStyles onSubmit={handleFormSubmit}>
-            <InputLabelStyles for="title">Title</InputLabelStyles>
+            <InputLabelStyles htmlFor="title">Title</InputLabelStyles>
             <InputStyles id="title" type="text" autoComplete="off" name="title"></InputStyles>
             <ButtonStyles type="submit">Add</ButtonStyles>
         </FormStyles>

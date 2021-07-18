@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import PropTypes from 'prop-types';
+import TodoItemInterface from "../types/todoItem";
+import { TodoActionSheetContext } from "../contexts/TodoActionSheetContext";
 
 const TodoItemStyles = styled.div`
     border: 1px solid #f4f4f4;
@@ -21,16 +22,19 @@ const TodoItemStyles = styled.div`
     } */
 `
 
-function TodoItem({item}) {
+function TodoItem({ item }) {
     const [isDone, setIsDone] = useState(item.checked)
+    const { showActionSheet } = useContext(TodoActionSheetContext)
 
     const handleItemClick = () => {
-        const _isDone = !isDone
-        item.checked = _isDone
+        // const _isDone = !isDone
+        // item.checked = _isDone
 
-        setIsDone(_isDone)
+        // setIsDone(_isDone)
 
-        console.log(item);
+        // console.log(item);
+
+        showActionSheet(item)
     }
 
     return <TodoItemStyles done={isDone} className={isDone ? 'done' : ''} onClick={handleItemClick}>
@@ -39,12 +43,7 @@ function TodoItem({item}) {
 }
 
 TodoItem.propTypes = {
-    item: PropTypes.exact({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        checked: PropTypes.bool.isRequired,
-        order: PropTypes.number.isRequired,
-    })
+    item: TodoItemInterface
 }
 
 export default TodoItem
