@@ -3,6 +3,7 @@ import AddTodoForm from "./components/AddTodoForm";
 import Divider from "./components/Divider";
 import TodoList from "./components/TodoList";
 import TodoActionSheetProvider from "./contexts/TodoActionSheetContext";
+import TodoListProvider from "./contexts/TodoListContext";
 
 const AppStyles = styled.div``
 const TitleStyles = styled.h1`
@@ -20,11 +21,13 @@ function App() {
     return (
         <AppStyles>
             <TitleStyles>Todo App</TitleStyles>
-            <TodoActionSheetProvider>
-                <TodoList />
-                <Divider />
-                <AddTodoForm />
-            </TodoActionSheetProvider>
+            <TodoListProvider>
+                <TodoActionSheetProvider>
+                    <TodoList />
+                    <Divider />
+                    <AddTodoForm />
+                </TodoActionSheetProvider>
+            </TodoListProvider>
         </AppStyles>
     );
 }
