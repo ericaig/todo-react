@@ -7,6 +7,8 @@ const TodoListStyles = styled.div`
 `
 
 export default function TodoList() {
+    const visibleItems = 3
+
     const titles = [
         "Officia elit laborum do enim magna mollit irure.",
         "Occaecat pariatur id eu ad proident labore laborum in cupidatat in.",
@@ -34,6 +36,9 @@ export default function TodoList() {
     ))
 
     return <TodoListStyles>
-        {items.map((item, i) => <TodoItem key={i} item={item} />)}
+        {items.map((item, i) => {
+
+            return <TodoItem key={i} item={item} />
+        })}
     </TodoListStyles>
 }
