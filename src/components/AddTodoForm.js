@@ -1,12 +1,15 @@
 import { useContext } from "react"
 import styled from "styled-components"
 import { TodoActionSheetContext } from "../contexts/TodoActionSheetContext"
+import { TodoListContext } from "../contexts/TodoListContext"
+import useForm from "../hooks/useForm"
 
 const FormContainerStyles = styled.div`
     background-color: whitesmoke;
-    position: sticky;
+    position: absolute;
     bottom: 0;
     padding: 1em;
+    width: calc(100% - 2em);
     box-shadow: 0 0 1em #b4b4b498;
     display: ${props => !props.show ? 'block' : 'none'};
 `
@@ -86,22 +89,37 @@ const ButtonStyles = styled.button`
 
 export default function AddTodoForm() {
     const { show: actionSheetIsVisible } = useContext(TodoActionSheetContext)
+    const { addTodo, updateTodo, itemToUpdate } = useContext(TodoListContext)
+
+    const { inputs, handleChange, clearForm } = useForm({ title: itemToUpdate?.title || "" })
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-
         const title = (e.target.title.value || "").trim()
 
         if (!title) return alert("Title input can't be empty")
 
-        console.log(title);
+        if (itemToUpdate) {
+            itemToUpdate.title = title
+            updateTodo(itemToUpdate)
+        }
+        else addTodo(title)
+
+        clearForm();
     }
 
     return <FormContainerStyles show={actionSheetIsVisible}>
         <FormStyles onSubmit={handleFormSubmit}>
             <InputLabelStyles htmlFor="title">Title</InputLabelStyles>
-            <InputStyles id="title" type="text" autoComplete="off" name="title"></InputStyles>
-            <ButtonStyles type="submit">Add</ButtonStyles>
+            <InputStyles
+                id="title"
+                type="text"
+                autoComplete="off"
+                name="title"
+                value={inputs.title}
+                onChange={handleChange}>
+            </InputStyles>
+            <ButtonStyles type="submit">{itemToUpdate ? "Update" : "Add"}</ButtonStyles>
         </FormStyles>
     </FormContainerStyles>
 }

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import TodoItemInterface from "../types/todoItem";
 import { TodoActionSheetContext } from "../contexts/TodoActionSheetContext";
@@ -15,29 +15,14 @@ const TodoItemStyles = styled.div`
     &:not(:last-child) {
         margin-bottom: 1em;
     }
-
-    /* &:not(.done):hover{
-        text-decoration: line-through;
-        color: #b4b4b4;
-    } */
 `
 
 function TodoItem({ item }) {
-    const [isDone, setIsDone] = useState(item.checked)
+    const isDone = item.checked
+
     const { showActionSheet } = useContext(TodoActionSheetContext)
 
-    const handleItemClick = () => {
-        // const _isDone = !isDone
-        // item.checked = _isDone
-
-        // setIsDone(_isDone)
-
-        // console.log(item);
-
-        showActionSheet(item)
-    }
-
-    return <TodoItemStyles done={isDone} className={isDone ? 'done' : ''} onClick={handleItemClick}>
+    return <TodoItemStyles done={isDone} className={isDone ? 'done' : ''} onClick={() => showActionSheet(item)}>
         {item.title}
     </TodoItemStyles>
 }

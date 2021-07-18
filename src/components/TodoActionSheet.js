@@ -1,12 +1,15 @@
 import styled from "styled-components";
 import TodoItemInterface from "../types/todoItem";
 import PropTypes from 'prop-types';
+import { useContext } from "react";
+import { TodoListContext } from "../contexts/TodoListContext";
 
 const TodoActionSheetStyles = styled.div`
     background-color: white;
-    position: sticky;
+    position: absolute;
     bottom: 0;
     padding: 1em;
+    width: calc(100% - 2em);
     display: ${props => props.show ? 'block' : 'none'};
 `
 
@@ -46,20 +49,41 @@ const TodoActionSheetActionStyles = styled.li`
 `
 
 function TodoActionSheet({ show, item, hideActionSheet }) {
+    const { removeTodo, unMarkTodoAsDone, markTodoAsDone, editTodo } = useContext(TodoListContext)
+
     if (!item || !show) return <></>
 
     return <TodoActionSheetStyles show={show}>
         <TodoActionSheetTitleStyles done={item.checked}>{item.title}</TodoActionSheetTitleStyles>
         <TodoActionSheetActionsStyles>
-            <TodoActionSheetActionStyles>
+            {!item.checked && <TodoActionSheetActionStyles onClick={() => {
+                markTodoAsDone(item.id)
+                hideActionSheet()
+            }}>
                 <div className="icon">✅</div>
                 <div className="title">Mark as done</div>
-            </TodoActionSheetActionStyles>
-            <TodoActionSheetActionStyles>
+            </TodoActionSheetActionStyles>}
+
+            {item.checked && <TodoActionSheetActionStyles onClick={() => {
+                unMarkTodoAsDone(item.id)
+                hideActionSheet()
+            }}>
+                <div className="icon">🔄</div>
+                <div className="title">Unmark as done</div>
+            </TodoActionSheetActionStyles>}
+
+            <TodoActionSheetActionStyles onClick={() => {
+                editTodo(item)
+                hideActionSheet()
+            }}>
                 <div className="icon">✍🏽</div>
                 <div className="title">Edit</div>
             </TodoActionSheetActionStyles>
-            <TodoActionSheetActionStyles delete>
+
+            <TodoActionSheetActionStyles onClick={() => {
+                removeTodo(item.id)
+                hideActionSheet()
+            }} delete>
                 <div className="icon">❌</div>
                 <div className="title">Delete</div>
             </TodoActionSheetActionStyles>
