@@ -36,7 +36,7 @@ export default function TodoListProvider({ children }) {
     const removeTodo = (id) => _setStateAndSave({ items: [..._state.items.filter(item => item.id !== id)], itemToUpdate: undefined })
 
     const _findAndSetCheckedState = (id, _checked) => {
-        const [_item] = _state.items.filter(item => item.id === id)
+        const _item = _state.items.find(item => item.id === id)
 
         if (!_item) return alert("No item found")
 
